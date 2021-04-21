@@ -16,20 +16,6 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
       (_$canLoginComputed ??= Computed<bool>(() => super.canLogin,
               name: '_LoginFormStore.canLogin'))
           .value;
-  Computed<bool> _$canRegisterComputed;
-
-  @override
-  bool get canRegister =>
-      (_$canRegisterComputed ??= Computed<bool>(() => super.canRegister,
-              name: '_LoginFormStore.canRegister'))
-          .value;
-  Computed<bool> _$canForgetPasswordComputed;
-
-  @override
-  bool get canForgetPassword => (_$canForgetPasswordComputed ??= Computed<bool>(
-          () => super.canForgetPassword,
-          name: '_LoginFormStore.canForgetPassword'))
-      .value;
 
   final _$userEmailAtom = Atom(name: '_LoginFormStore.userEmail');
 
@@ -58,21 +44,6 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
   set password(String value) {
     _$passwordAtom.reportWrite(value, super.password, () {
       super.password = value;
-    });
-  }
-
-  final _$confirmPasswordAtom = Atom(name: '_LoginFormStore.confirmPassword');
-
-  @override
-  String get confirmPassword {
-    _$confirmPasswordAtom.reportRead();
-    return super.confirmPassword;
-  }
-
-  @override
-  set confirmPassword(String value) {
-    _$confirmPasswordAtom.reportWrite(value, super.confirmPassword, () {
-      super.confirmPassword = value;
     });
   }
 
@@ -139,11 +110,11 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
       ActionController(name: '_LoginFormStore');
 
   @override
-  void setUserId(String value) {
+  void setUserEmail(String value) {
     final _$actionInfo = _$_LoginFormStoreActionController.startAction(
-        name: '_LoginFormStore.setUserId');
+        name: '_LoginFormStore.setUserEmail');
     try {
-      return super.setUserId(value);
+      return super.setUserEmail(value);
     } finally {
       _$_LoginFormStoreActionController.endAction(_$actionInfo);
     }
@@ -155,17 +126,6 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
         name: '_LoginFormStore.setPassword');
     try {
       return super.setPassword(value);
-    } finally {
-      _$_LoginFormStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setConfirmPassword(String value) {
-    final _$actionInfo = _$_LoginFormStoreActionController.startAction(
-        name: '_LoginFormStore.setConfirmPassword');
-    try {
-      return super.setConfirmPassword(value);
     } finally {
       _$_LoginFormStoreActionController.endAction(_$actionInfo);
     }
@@ -194,27 +154,13 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
   }
 
   @override
-  void validateConfirmPassword(String value) {
-    final _$actionInfo = _$_LoginFormStoreActionController.startAction(
-        name: '_LoginFormStore.validateConfirmPassword');
-    try {
-      return super.validateConfirmPassword(value);
-    } finally {
-      _$_LoginFormStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 userEmail: ${userEmail},
 password: ${password},
-confirmPassword: ${confirmPassword},
 success: ${success},
 loading: ${loading},
-canLogin: ${canLogin},
-canRegister: ${canRegister},
-canForgetPassword: ${canForgetPassword}
+canLogin: ${canLogin}
     ''';
   }
 }
@@ -227,13 +173,6 @@ mixin _$LoginFormErrorStore on _LoginFormErrorStore, Store {
           () => super.hasErrorsInLogin,
           name: '_LoginFormErrorStore.hasErrorsInLogin'))
       .value;
-  Computed<bool> _$hasErrorsInRegisterComputed;
-
-  @override
-  bool get hasErrorsInRegister => (_$hasErrorsInRegisterComputed ??=
-          Computed<bool>(() => super.hasErrorsInRegister,
-              name: '_LoginFormErrorStore.hasErrorsInRegister'))
-      .value;
   Computed<bool> _$hasErrorInForgotPasswordComputed;
 
   @override
@@ -242,60 +181,43 @@ mixin _$LoginFormErrorStore on _LoginFormErrorStore, Store {
               name: '_LoginFormErrorStore.hasErrorInForgotPassword'))
       .value;
 
-  final _$userEmailAtom = Atom(name: '_LoginFormErrorStore.userEmail');
+  final _$userEmailErrorAtom =
+      Atom(name: '_LoginFormErrorStore.userEmailError');
 
   @override
-  String get userEmail {
-    _$userEmailAtom.reportRead();
-    return super.userEmail;
+  String get userEmailError {
+    _$userEmailErrorAtom.reportRead();
+    return super.userEmailError;
   }
 
   @override
-  set userEmail(String value) {
-    _$userEmailAtom.reportWrite(value, super.userEmail, () {
-      super.userEmail = value;
+  set userEmailError(String value) {
+    _$userEmailErrorAtom.reportWrite(value, super.userEmailError, () {
+      super.userEmailError = value;
     });
   }
 
-  final _$passwordAtom = Atom(name: '_LoginFormErrorStore.password');
+  final _$passwordErrorAtom = Atom(name: '_LoginFormErrorStore.passwordError');
 
   @override
-  String get password {
-    _$passwordAtom.reportRead();
-    return super.password;
+  String get passwordError {
+    _$passwordErrorAtom.reportRead();
+    return super.passwordError;
   }
 
   @override
-  set password(String value) {
-    _$passwordAtom.reportWrite(value, super.password, () {
-      super.password = value;
-    });
-  }
-
-  final _$confirmPasswordAtom =
-      Atom(name: '_LoginFormErrorStore.confirmPassword');
-
-  @override
-  String get confirmPassword {
-    _$confirmPasswordAtom.reportRead();
-    return super.confirmPassword;
-  }
-
-  @override
-  set confirmPassword(String value) {
-    _$confirmPasswordAtom.reportWrite(value, super.confirmPassword, () {
-      super.confirmPassword = value;
+  set passwordError(String value) {
+    _$passwordErrorAtom.reportWrite(value, super.passwordError, () {
+      super.passwordError = value;
     });
   }
 
   @override
   String toString() {
     return '''
-userEmail: ${userEmail},
-password: ${password},
-confirmPassword: ${confirmPassword},
+userEmailError: ${userEmailError},
+passwordError: ${passwordError},
 hasErrorsInLogin: ${hasErrorsInLogin},
-hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword}
     ''';
   }

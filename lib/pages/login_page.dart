@@ -1,7 +1,11 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:details_frontend/components/ui/app_icon.dart';
 import 'package:details_frontend/components/ui/empty_app_bar.dart';
+import 'package:details_frontend/components/ui/rounded_button.dart';
 import 'package:details_frontend/components/ui/text_field.dart';
 import 'package:details_frontend/store/login_form/login_form.dart';
+import 'package:details_frontend/utils/device/device_utils.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -77,9 +81,9 @@ class _LoginPageState extends State<LoginPage> {
             AppIcon(image: 'assets/icons/ic_appicon.png'),
             SizedBox(height: 24.0),
             _buildUserIdField(),
-            // _buildPasswordField(),
+            _buildPasswordField(),
             // _buildForgotPasswordButton(),
-            // _buildSignInButton()
+            _buildSignInButton(),
           ],
         ),
       ),
@@ -90,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
     return Observer(
       builder: (context) {
         return AppTextField(
-          hint: 'login_et_user_email',
+          hint: 'login',
           inputType: TextInputType.emailAddress,
           icon: Icons.person,
           iconColor: false ? Colors.white70 : Colors.black54,
@@ -98,14 +102,63 @@ class _LoginPageState extends State<LoginPage> {
           inputAction: TextInputAction.next,
           autoFocus: false,
           onChanged: (value) {
-            _store.setUserId(_emailController.text);
+            _store.setUserEmail(_emailController.text);
           },
           onFieldSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
           },
-          errorText: _store.LoginformErrorStore.userEmail,
+          errorText: _store.LoginformErrorStore.userEmailError,
         );
       },
     );
+  }
+
+  Widget _buildPasswordField() {
+    return Observer(builder: (context) {
+      return AppTextField(
+        hint: 'password',
+        inputType: TextInputType.visiblePassword,
+        icon: Icons.lock,
+        textController: _passwordController,
+        inputAction: TextInputAction.next,
+        autoFocus: false,
+        onChanged: (value) {
+          _store.setPassword(value);
+        },
+        focusNode: _passwordFocusNode,
+        errorText: _store.LoginformErrorStore.passwordError,
+      );
+    });
+  }
+
+  Widget _buildSignInButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 8),
+      child: RoundedButton(
+        buttonText: 'Войти',
+        buttonColor: Colors.orangeAccent,
+        textColor: Colors.white,
+        onPressed: () async {
+          if (_store.canLogin) {
+            DeviceUtils.hideKeyboard(context);
+            _store.login();
+          } else {
+            _showErrorMessage('Заполните поля');
+          }
+        },
+      ),
+    );
+  }
+
+  _showErrorMessage(String message) {
+    Future.delayed(Duration(milliseconds: 0), () {
+      Flushbar(
+        title:  "Упс",
+        message: message,
+        duration:  Duration(seconds: 3),
+      )..show(context);
+    });
+
+    return SizedBox.shrink();
   }
 }

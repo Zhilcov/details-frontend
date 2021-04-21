@@ -25,7 +25,6 @@ abstract class _LoginFormStore with Store {
     _disposers = [
       reaction((_) => userEmail, validateUserEmail),
       reaction((_) => password, validatePassword),
-      reaction((_) => confirmPassword, validateConfirmPassword)
     ];
   }
 
@@ -37,9 +36,6 @@ abstract class _LoginFormStore with Store {
   String password = '';
 
   @observable
-  String confirmPassword = '';
-
-  @observable
   bool success = false;
 
   @observable
@@ -49,20 +45,19 @@ abstract class _LoginFormStore with Store {
   bool get canLogin =>
       !LoginformErrorStore.hasErrorsInLogin && userEmail.isNotEmpty && password.isNotEmpty;
 
-  @computed
-  bool get canRegister =>
-      !LoginformErrorStore.hasErrorsInRegister &&
-          userEmail.isNotEmpty &&
-          password.isNotEmpty &&
-          confirmPassword.isNotEmpty;
-
-  @computed
-  bool get canForgetPassword =>
-      !LoginformErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
+  // @computed
+  // bool get canRegister =>
+  //     !LoginformErrorStore.hasErrorsInRegister &&
+  //         userEmail.isNotEmpty &&
+  //         password.isNotEmpty;
+  //
+  // @computed
+  // bool get canForgetPassword =>
+  //     !LoginformErrorStore.hasErrorInForgotPassword && userEmail.isNotEmpty;
 
   // actions:-------------------------------------------------------------------
   @action
-  void setUserId(String value) {
+  void setUserEmail(String value) {
     userEmail = value;
   }
 
@@ -71,43 +66,41 @@ abstract class _LoginFormStore with Store {
     password = value;
   }
 
-  @action
-  void setConfirmPassword(String value) {
-    confirmPassword = value;
-  }
+  // @action
+  // void setConfirmPassword(String value) {
+  //   confirmPassword = value;
+  // }
 
   @action
   void validateUserEmail(String value) {
     if (value.isEmpty) {
-      LoginformErrorStore.userEmail = "Email can't be empty";
-    } else if (!isEmail(value)) {
-      LoginformErrorStore.userEmail = 'Please enter a valid email address';
+      LoginformErrorStore.userEmailError = "Email can't be empty";
     } else {
-      LoginformErrorStore.userEmail = null;
+      LoginformErrorStore.userEmailError = null;
     }
   }
 
   @action
   void validatePassword(String value) {
     if (value.isEmpty) {
-      LoginformErrorStore.password = "Password can't be empty";
+      LoginformErrorStore.passwordError = "Password can't be empty";
     } else if (value.length < 6) {
-      LoginformErrorStore.password = "Password must be at-least 6 characters long";
+      LoginformErrorStore.passwordError = "Password must be at-least 6 characters long";
     } else {
-      LoginformErrorStore.password = null;
+      LoginformErrorStore.passwordError = null;
     }
   }
 
-  @action
-  void validateConfirmPassword(String value) {
-    if (value.isEmpty) {
-      LoginformErrorStore.confirmPassword = "Confirm password can't be empty";
-    } else if (value != password) {
-      LoginformErrorStore.confirmPassword = "Password doen't match";
-    } else {
-      LoginformErrorStore.confirmPassword = null;
-    }
-  }
+  // @action
+  // void validateConfirmPassword(String value) {
+  //   if (value.isEmpty) {
+  //     LoginformErrorStore.confirmPassword = "Confirm password can't be empty";
+  //   } else if (value != password) {
+  //     LoginformErrorStore.confirmPassword = "Password doen't match";
+  //   } else {
+  //     LoginformErrorStore.confirmPassword = null;
+  //   }
+  // }
 
   @action
   Future register() async {
@@ -158,21 +151,18 @@ class LoginFormErrorStore = _LoginFormErrorStore with _$LoginFormErrorStore;
 
 abstract class _LoginFormErrorStore with Store {
   @observable
-  String userEmail;
+  String userEmailError;
 
   @observable
-  String password;
-
-  @observable
-  String confirmPassword;
+  String passwordError;
 
   @computed
-  bool get hasErrorsInLogin => userEmail != null || password != null;
+  bool get hasErrorsInLogin => userEmailError != null || passwordError != null;
+
+  // @computed
+  // bool get hasErrorsInRegister =>
+  //     userEmail != null || password != null;
 
   @computed
-  bool get hasErrorsInRegister =>
-      userEmail != null || password != null || confirmPassword != null;
-
-  @computed
-  bool get hasErrorInForgotPassword => userEmail != null;
+  bool get hasErrorInForgotPassword => userEmailError != null;
 }
