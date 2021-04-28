@@ -4,7 +4,6 @@ import 'package:details_frontend/store/home/home_store.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobx/mobx.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:details_frontend/store/error/error_store.dart';
 
@@ -32,14 +31,14 @@ abstract class _LoginFormStore with Store {
 
   void _setupValidations() {
     _disposers = [
-      reaction((_) => userEmail, validateUserEmail),
+      reaction((_) => userLogin, validateUserEmail),
       reaction((_) => password, validatePassword),
     ];
   }
 
   // store variables:-----------------------------------------------------------
   @observable
-  String userEmail = '';
+  String userLogin = '';
 
   @observable
   String password = '';
@@ -52,7 +51,7 @@ abstract class _LoginFormStore with Store {
 
   @computed
   bool get canLogin =>
-      !LoginformErrorStore.hasErrorsInLogin && userEmail.isNotEmpty && password.isNotEmpty;
+      !LoginformErrorStore.hasErrorsInLogin && userLogin.isNotEmpty && password.isNotEmpty;
 
   // @computed
   // bool get canRegister =>
@@ -66,8 +65,8 @@ abstract class _LoginFormStore with Store {
 
   // actions:-------------------------------------------------------------------
   @action
-  void setUserEmail(String value) {
-    userEmail = value;
+  void setUserLogin(String value) {
+    userLogin = value;
   }
 
   @action
@@ -162,7 +161,7 @@ abstract class _LoginFormStore with Store {
 
   void validateAll() {
     validatePassword(password);
-    validateUserEmail(userEmail);
+    validateUserEmail(userLogin);
   }
 }
 

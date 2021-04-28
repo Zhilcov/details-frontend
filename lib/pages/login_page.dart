@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
           inputAction: TextInputAction.next,
           autoFocus: false,
           onChanged: (value) {
-            _store.setUserEmail(_emailController.text);
+            _store.setUserLogin(_emailController.text);
           },
           onFieldSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);

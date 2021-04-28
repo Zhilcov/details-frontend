@@ -11,12 +11,12 @@ class AuthService {
 
   AuthService(this.api);
 
-  Future<APIResponse<User>> signIn(String email, String password) async {
+  Future<APIResponse<User>> signIn(String login, String password) async {
 
     final res = await http.post(
       api.getUrl('auth/signIn').toString(),
       body: jsonEncode(<String, String>{
-        'login': email,
+        'login': login,
         'password': password
       }),
     );
