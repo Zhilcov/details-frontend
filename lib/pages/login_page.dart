@@ -1,13 +1,13 @@
-import 'package:another_flushbar/flushbar.dart';
 import 'package:details_frontend/components/ui/app_icon.dart';
 import 'package:details_frontend/components/ui/empty_app_bar.dart';
 import 'package:details_frontend/components/ui/rounded_button.dart';
 import 'package:details_frontend/components/ui/text_field.dart';
-import 'package:details_frontend/store/login_form/login_form.dart';
+import 'package:details_frontend/store/login_form/login_form_store.dart';
 import 'package:details_frontend/utils/device/device_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -141,24 +141,23 @@ class _LoginPageState extends State<LoginPage> {
         onPressed: () async {
           if (_store.canLogin) {
             DeviceUtils.hideKeyboard(context);
-            _store.login();
+            _store.signIn();
           } else {
-            _showErrorMessage('Заполните поля');
+            Fluttertoast.showToast(
+                msg: "This is Center Short Toast",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.CENTER,
+                timeInSecForIosWeb: 1,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+                fontSize: 16.0
+            );
+            // _showErrorMessage('Заполните поля');
           }
         },
       ),
     );
   }
 
-  _showErrorMessage(String message) {
-    Future.delayed(Duration(milliseconds: 0), () {
-      Flushbar(
-        title:  "Упс",
-        message: message,
-        duration:  Duration(seconds: 3),
-      )..show(context);
-    });
 
-    return SizedBox.shrink();
-  }
 }

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'login_form.dart';
+part of 'login_form_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -84,11 +84,11 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
     return _$registerAsyncAction.run(() => super.register());
   }
 
-  final _$loginAsyncAction = AsyncAction('_LoginFormStore.login');
+  final _$signInAsyncAction = AsyncAction('_LoginFormStore.signIn');
 
   @override
-  Future<dynamic> login() {
-    return _$loginAsyncAction.run(() => super.login());
+  Future<dynamic> signIn() {
+    return _$signInAsyncAction.run(() => super.signIn());
   }
 
   final _$forgotPasswordAsyncAction =

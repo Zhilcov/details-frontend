@@ -1,22 +1,31 @@
-import 'package:validators/validators.dart';
+import 'package:details_frontend/services/auth_service.dart';
+import 'package:details_frontend/services/base_api_service.dart';
+import 'package:details_frontend/store/home/home_store.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobx/mobx.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:details_frontend/store/error/error_store.dart';
 
-part 'login_form.g.dart';
+part 'login_form_store.g.dart';
 
 class LoginFormStore = _LoginFormStore with _$LoginFormStore;
 
 abstract class _LoginFormStore with Store {
-  // store for handling Loginform errors
-  final LoginFormErrorStore LoginformErrorStore = LoginFormErrorStore();
 
-  // store for handling error messages
+  final LoginFormErrorStore LoginformErrorStore = LoginFormErrorStore();
+  final HomeStore _HomeStore = HomeStore();
   final ErrorStore errorStore = ErrorStore();
+
+  final AuthService _AuthService = AuthService(BaseApi.sandbox());
 
   _LoginFormStore() {
     _setupValidations();
   }
+
+
+
 
   // disposers:-----------------------------------------------------------------
   List<ReactionDisposer> _disposers;
@@ -108,9 +117,19 @@ abstract class _LoginFormStore with Store {
   }
 
   @action
-  Future login() async {
+  Future signIn() async {
     loading = true;
 
+    var signInResult = await _AuthService.signIn(this.userEmail, this.password);
+    Fluttertoast.showToast(
+        msg: signInResult.message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+    );
     Future.delayed(Duration(milliseconds: 2000)).then((future) {
       loading = false;
       success = true;
