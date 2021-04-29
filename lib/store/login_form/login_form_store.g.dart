@@ -17,18 +17,18 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
               name: '_LoginFormStore.canLogin'))
           .value;
 
-  final _$userEmailAtom = Atom(name: '_LoginFormStore.userEmail');
+  final _$userLoginAtom = Atom(name: '_LoginFormStore.userLogin');
 
   @override
-  String get userEmail {
-    _$userEmailAtom.reportRead();
-    return super.userEmail;
+  String get userLogin {
+    _$userLoginAtom.reportRead();
+    return super.userLogin;
   }
 
   @override
-  set userEmail(String value) {
-    _$userEmailAtom.reportWrite(value, super.userEmail, () {
-      super.userEmail = value;
+  set userLogin(String value) {
+    _$userLoginAtom.reportWrite(value, super.userLogin, () {
+      super.userLogin = value;
     });
   }
 
@@ -110,11 +110,11 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
       ActionController(name: '_LoginFormStore');
 
   @override
-  void setUserEmail(String value) {
+  void setUserLogin(String value) {
     final _$actionInfo = _$_LoginFormStoreActionController.startAction(
-        name: '_LoginFormStore.setUserEmail');
+        name: '_LoginFormStore.setUserLogin');
     try {
-      return super.setUserEmail(value);
+      return super.setUserLogin(value);
     } finally {
       _$_LoginFormStoreActionController.endAction(_$actionInfo);
     }
@@ -156,7 +156,7 @@ mixin _$LoginFormStore on _LoginFormStore, Store {
   @override
   String toString() {
     return '''
-userEmail: ${userEmail},
+userLogin: ${userLogin},
 password: ${password},
 success: ${success},
 loading: ${loading},

@@ -19,6 +19,7 @@ class AuthService {
         'login': login,
         'password': password
       }),
+      headers: api.getPostHeader(),
     );
 
     var handledRes = ResponseStatusHandler.parse(res);

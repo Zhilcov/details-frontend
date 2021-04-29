@@ -12,8 +12,9 @@ class ParsedResponse {
 }
 
 class ResponseStatusHandler {
-  static APIResponse parse<T>(Response response) {
-    var jsonData = ParsedResponse(json.decode(response.body));
+  static ParsedResponse parse<T>(Response response) {
+    var jsonData = json.decode(response.body);
+    print(jsonData.data);
 
     switch (response.statusCode) {
       case 200:
@@ -24,17 +25,19 @@ class ResponseStatusHandler {
 
       case 404:
         {
-          jsonData.message = 'Неуспешно не найдено';
+          jsonData.message =  jsonData.data ?? 'Неуспешно не найдено';
           jsonData.success = false;
         }
         break;
 
-      case 404:
+      case 500:
         {
           jsonData.message = 'Все хуева ошибка сервера';
           jsonData.success = false;
         }
         break;
     }
+
+    return jsonData;
   }
 }

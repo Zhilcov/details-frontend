@@ -14,4 +14,8 @@ class BaseApi {
     host: host,
     port: port,
   );
+
+  Map<String, String> getPostHeader() => {
+    'Content-Type': 'application/json',
+  };
 }

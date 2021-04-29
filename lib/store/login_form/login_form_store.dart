@@ -1,8 +1,7 @@
 import 'package:details_frontend/services/auth_service.dart';
 import 'package:details_frontend/services/base_api_service.dart';
 import 'package:details_frontend/store/home/home_store.dart';
-import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:details_frontend/utils/device/toaster.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:details_frontend/store/error/error_store.dart';
@@ -119,27 +118,24 @@ abstract class _LoginFormStore with Store {
   Future signIn() async {
     loading = true;
 
-    var signInResult = await _AuthService.signIn(this.userEmail, this.password);
-    Fluttertoast.showToast(
-        msg: signInResult.message,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
-    Future.delayed(Duration(milliseconds: 2000)).then((future) {
-      loading = false;
-      success = true;
-    }).catchError((e) {
-      loading = false;
-      success = false;
-      errorStore.errorMessage = e.toString().contains("ERROR_USER_NOT_FOUND")
-          ? "Username and password doesn't match"
-          : "Something went wrong, please check your internet connection and try again";
-      print(e);
-    });
+    var signInResult = await _AuthService.signIn(this.userLogin, this.password);
+
+    if (signInResult.success) {
+      Toaster.show('Авторизация прошла успешно');
+      _HomeStore.setCurrentUser(signInResult.data);
+    }
+
+    // Future.delayed(Duration(milliseconds: 2000)).then((future) {
+    //   loading = false;
+    //   success = true;
+    // }).catchError((e) {
+    //   loading = false;
+    //   success = false;
+    //   errorStore.errorMessage = e.toString().contains("ERROR_USER_NOT_FOUND")
+    //       ? "Username and password doesn't match"
+    //       : "Something went wrong, please check your internet connection and try again";
+    //   print(e);
+    // });
   }
 
   @action
