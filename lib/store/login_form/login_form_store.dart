@@ -123,6 +123,8 @@ abstract class _LoginFormStore with Store {
     if (signInResult.success) {
       Toaster.show('Авторизация прошла успешно');
       _HomeStore.setCurrentUser(signInResult.data);
+    } else {
+      Toaster.show(signInResult.message);
     }
 
     // Future.delayed(Duration(milliseconds: 2000)).then((future) {
