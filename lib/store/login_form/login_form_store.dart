@@ -2,6 +2,8 @@ import 'package:details_frontend/services/auth_service.dart';
 import 'package:details_frontend/services/base_api_service.dart';
 import 'package:details_frontend/store/home/home_store.dart';
 import 'package:details_frontend/utils/device/toaster.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:mobx/mobx.dart';
 
 import 'package:details_frontend/store/error/error_store.dart';
@@ -123,21 +125,12 @@ abstract class _LoginFormStore with Store {
     if (signInResult.success) {
       Toaster.show('Авторизация прошла успешно');
       _HomeStore.setCurrentUser(signInResult.data);
+      Get.toNamed("/", arguments: 'Get is the best');
     } else {
       Toaster.show(signInResult.message);
     }
 
-    // Future.delayed(Duration(milliseconds: 2000)).then((future) {
-    //   loading = false;
-    //   success = true;
-    // }).catchError((e) {
-    //   loading = false;
-    //   success = false;
-    //   errorStore.errorMessage = e.toString().contains("ERROR_USER_NOT_FOUND")
-    //       ? "Username and password doesn't match"
-    //       : "Something went wrong, please check your internet connection and try again";
-    //   print(e);
-    // });
+    loading = false;
   }
 
   @action

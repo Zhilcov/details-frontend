@@ -39,52 +39,22 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildLoginBody() {
     return Material(
-      child: Stack(
-        children: <Widget>[
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 1,
-                      child: _buildLeftSide(),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: _buildRightSide(),
-                    ),
-                  ],
-                )
-              : Center(child: _buildRightSide()),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLeftSide() {
-    return SizedBox.expand(
-      child: Image.asset(
-        'assets/images/img_login.jpg',
-        fit: BoxFit.cover,
-      ),
-    );
-  }
-
-  Widget _buildRightSide() {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            AppIcon(image: 'assets/icons/ic_appicon.png'),
-            SizedBox(height: 24.0),
-            _buildUserIdField(),
-            _buildPasswordField(),
-            // _buildForgotPasswordButton(),
-            _buildSignInButton(),
-          ],
+      child: Container(
+        child: Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.9 > 500 ? 500 : 300),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 24.0),
+                _buildUserIdField(),
+                _buildPasswordField(),
+                // _buildForgotPasswordButton(),
+                _buildSignInButton(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -150,14 +120,11 @@ class _LoginPageState extends State<LoginPage> {
                 timeInSecForIosWeb: 1,
                 backgroundColor: Colors.red,
                 textColor: Colors.white,
-                fontSize: 16.0
-            );
+                fontSize: 16.0);
             // _showErrorMessage('Заполните поля');
           }
         },
       ),
     );
   }
-
-
 }

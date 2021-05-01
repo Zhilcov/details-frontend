@@ -1,3 +1,8 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
+
 class BaseApi {
   BaseApi();
 
@@ -18,4 +23,16 @@ class BaseApi {
   Map<String, String> getPostHeader() => {
     'Content-Type': 'application/json',
   };
+
+  Future<Response> post (body) async {
+    try {
+      return await http.post(
+        this.getUrl('auth/signIn').toString(),
+        body: body,
+        headers: this.getPostHeader(),
+      );
+    }on Exception catch (_) {
+      return http.Response(jsonEncode({}), 500);
+    }
+  }
 }
