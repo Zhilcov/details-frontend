@@ -16,7 +16,6 @@ class ResponseStatusHandler {
     var jsonData = json.decode(response.body);
     var parsedResponse = ParsedResponse(jsonData);
     var resMsg = jsonData['message'];
-    print(jsonData);
 
     switch (response.statusCode) {
       case 200:

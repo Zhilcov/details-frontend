@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text('mainPage'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('MainPage'),
+        centerTitle: true,
       ),
     );
   }

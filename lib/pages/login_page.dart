@@ -2,12 +2,12 @@ import 'package:details_frontend/components/ui/app_icon.dart';
 import 'package:details_frontend/components/ui/empty_app_bar.dart';
 import 'package:details_frontend/components/ui/rounded_button.dart';
 import 'package:details_frontend/components/ui/text_field.dart';
-import 'package:details_frontend/store/login_form/login_form_store.dart';
+import 'package:details_frontend/store/login_form/login_form_controller.dart';
 import 'package:details_frontend/utils/device/device_utils.dart';
+import 'package:details_frontend/utils/device/toaster.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -20,7 +20,7 @@ class _LoginPageState extends State<LoginPage> {
 
   FocusNode _passwordFocusNode;
 
-  final _store = LoginFormStore();
+  final _store = Get.find<LoginFormController>();
 
   @override
   void initState() {
@@ -61,8 +61,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildUserIdField() {
-    return Observer(
-      builder: (context) {
+    return Obx(() {
         return AppTextField(
           hint: 'login',
           inputType: TextInputType.emailAddress,
@@ -77,14 +76,14 @@ class _LoginPageState extends State<LoginPage> {
           onFieldSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
           },
-          errorText: _store.LoginformErrorStore.userEmailError,
+          errorText: _store.loginFormError.userEmailError.value,
         );
       },
     );
   }
 
   Widget _buildPasswordField() {
-    return Observer(builder: (context) {
+    return Obx(() {
       return AppTextField(
         hint: 'password',
         inputType: TextInputType.visiblePassword,
@@ -96,7 +95,7 @@ class _LoginPageState extends State<LoginPage> {
           _store.setPassword(value);
         },
         focusNode: _passwordFocusNode,
-        errorText: _store.LoginformErrorStore.passwordError,
+        errorText: _store.loginFormError.passwordError.value,
       );
     });
   }
@@ -113,15 +112,7 @@ class _LoginPageState extends State<LoginPage> {
             DeviceUtils.hideKeyboard(context);
             _store.signIn();
           } else {
-            Fluttertoast.showToast(
-                msg: "This is Center Short Toast",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.CENTER,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0);
-            // _showErrorMessage('Заполните поля');
+            Toaster.showError('Заполните все нобходимые поля');
           }
         },
       ),
