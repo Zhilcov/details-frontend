@@ -28,8 +28,8 @@ class LoginFormController extends GetxController {
 
   @override
   void onInit() {
-    ever(userLogin, (val) => validateUserEmail(val));
-    ever(password, (val) => validatePassword(val));
+    ever(userLogin, (val) => validateUserEmail(val.toString()));
+    ever(password, (val) => validatePassword(val.toString()));
   }
 
   bool get canLogin =>
@@ -39,7 +39,7 @@ class LoginFormController extends GetxController {
     if (value.isEmpty) {
       loginFormError.userEmailError.value = "Email can't be empty";
     } else {
-      loginFormError.userEmailError.value = null;
+      loginFormError.userEmailError.value = '';
     }
   }
 
@@ -49,7 +49,7 @@ class LoginFormController extends GetxController {
     } else if (value.length < 6) {
       loginFormError.passwordError.value = "Password must be at-least 6 characters long";
     } else {
-      loginFormError.passwordError.value = null;
+      loginFormError.passwordError.value = '';
     }
   }
 
@@ -61,7 +61,6 @@ class LoginFormController extends GetxController {
     if (signInResult.success) {
       Toaster.show('Авторизация прошла успешно');
       coreController.setCurrentUser(signInResult.data);
-      // Get.toNamed("/", arguments: 'Get is the best');
     } else {
       Toaster.showError(signInResult.message);
     }

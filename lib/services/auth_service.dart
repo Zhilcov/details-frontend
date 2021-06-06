@@ -12,7 +12,7 @@ class AuthService {
 
   Future<APIResponse<User>> signIn(String login, String password) async {
 
-    final res = await api.post(jsonEncode(<String, String>{
+    final res = await api.post('auth/signIn', jsonEncode(<String, String>{
       'login': login,
       'password': password
     }));

@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 class BaseApi {
   BaseApi();
 
-  String apiKey;
+  String? apiKey;
 
   factory BaseApi.sandbox() => BaseApi();
 
@@ -24,12 +24,23 @@ class BaseApi {
     'Content-Type': 'application/json',
   };
 
-  Future<Response> post (body) async {
+  Future<Response> post (String url, body) async {
     try {
       return await http.post(
-        this.getUrl('auth/signIn').toString(),
+        this.getUrl(url),
         body: body,
         headers: this.getPostHeader(),
+      );
+    }on Exception catch (_) {
+      return http.Response(jsonEncode({}), 500);
+    }
+  }
+
+  Future<Response> get (String url, params) async {
+    try {
+      String queryString = Uri(queryParameters: params).query;
+      return await http.get(
+        this.getUrl('$url?$queryString'),
       );
     }on Exception catch (_) {
       return http.Response(jsonEncode({}), 500);

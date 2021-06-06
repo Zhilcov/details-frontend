@@ -4,7 +4,7 @@ class AppIcon extends StatelessWidget {
   final image;
 
   AppIcon({
-    Key key,
+    Key? key,
     this.image,
   }) : super(key: key);
 

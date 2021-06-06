@@ -18,7 +18,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
-  FocusNode _passwordFocusNode;
+  late final FocusNode _passwordFocusNode;
 
   final _store = Get.find<LoginFormController>();
 
@@ -63,10 +63,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildUserIdField() {
     return Obx(() {
         return AppTextField(
+          key: Key('User'),
           hint: 'login',
           inputType: TextInputType.emailAddress,
-          icon: Icons.person,
-          iconColor: false ? Colors.white70 : Colors.black54,
+          icon: Icon(Icons.person, color: Colors.black54),
           textController: _emailController,
           inputAction: TextInputAction.next,
           autoFocus: false,
@@ -85,9 +85,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget _buildPasswordField() {
     return Obx(() {
       return AppTextField(
+        key: Key('PasswordField'),
         hint: 'password',
         inputType: TextInputType.visiblePassword,
-        icon: Icons.lock,
+        icon: Icon(Icons.lock),
         textController: _passwordController,
         inputAction: TextInputAction.next,
         autoFocus: false,
