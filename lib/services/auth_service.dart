@@ -5,14 +5,12 @@ import 'package:details_frontend/models/user/user.dart';
 import 'package:details_frontend/services/base_api_service.dart';
 import 'package:details_frontend/utils/device/response_handler.dart';
 
-class AuthService {
-  final BaseApi api;
-
-  AuthService(this.api);
+class AuthService extends BaseApi {
+  AuthService();
 
   Future<APIResponse<User>> signIn(String login, String password) async {
 
-    final res = await api.post('auth/signIn', jsonEncode(<String, String>{
+    final res = await this.post('auth/signIn', jsonEncode(<String, String>{
       'login': login,
       'password': password
     }));

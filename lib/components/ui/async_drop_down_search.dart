@@ -1,6 +1,5 @@
-import 'package:details_frontend/interfaces/drop_down.dart';
+import 'package:details_frontend/models/api/drop_down.dart';
 import 'package:details_frontend/services/base_api_service.dart';
-import 'package:details_frontend/utils/device/response_handler.dart';
 
 import 'drop_down_search.dart';
 import 'package:dropdown_search/dropdown_search.dart';
@@ -32,7 +31,6 @@ class AppAsyncDropdownSearch extends AppDropdownSearch {
       label: this.label,
       onFind: (String search) async {
         var res = await BaseApi.sandbox().get( "/user", {"search": search});
-        print(res);
         // var models = DropdownItem.fromJsonList(handledRes.data);
         return [];
       },

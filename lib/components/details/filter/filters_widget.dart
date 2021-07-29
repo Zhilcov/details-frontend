@@ -1,5 +1,6 @@
 import 'package:details_frontend/components/ui/async_drop_down_search.dart';
 import 'package:details_frontend/components/ui/drop_down_search.dart';
+import 'package:details_frontend/models/api/drop_down.dart';
 import 'package:details_frontend/store/filters/filters_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,8 @@ class FiltersWidget extends StatelessWidget {
     return Column(
         children: [
           Obx(() {
+            print('Obx');
+            print(_filters.carBrand.value.options[0].toString());
             return AppDropdownSearch(
               label: 'Бренд',
               value: _filters.carBrand.value.value,
@@ -41,4 +44,18 @@ class FiltersWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildField() {
+    return Obx(() {
+      return AppDropdownSearch(
+        label: 'Бренд',
+        value: _filters.carBrand.value.value,
+        items: _filters.carBrand.value.options,
+        onChange: (opt) => {
+          if (opt != null) {
+            _filters.setCarBrand(opt.value)
+          }
+        },
+      );
+    });
+  }
 }

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 class MainPageBinding extends CoreBindings {
 
   void dependencies() {
-    print('MainPageBinding dependencies');
     super.dependencies();
     Get.lazyPut<FiltersController>(() => FiltersController());
   }

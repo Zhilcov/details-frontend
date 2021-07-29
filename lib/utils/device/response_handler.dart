@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-class ParsedResponse {
-  Map<String, dynamic> data;
+class ParsedResponse<D> {
+  D data;
   bool success;
   String message;
 
@@ -14,18 +14,23 @@ class ResponseStatusHandler {
   static ParsedResponse parse<T>(Response response) {
 
     var jsonData = json.decode(response.body);
-    var parsedResponse = ParsedResponse(jsonData);
-    var resMsg = jsonData['message'];
 
+    var parsedResponse = ParsedResponse<T>(jsonData);
+    var resMsg;
+
+    if (T == Map) {
+      resMsg = jsonData['message'];
+    }
+    
     switch (response.statusCode) {
       case 200:
         {
-          parsedResponse.message = resMsg ?? 'Успешно заебись';
+          parsedResponse.message = resMsg == Null ? resMsg : 'Успешно заебись';
         }
         break;
       case 404:
         {
-          parsedResponse.message =  resMsg ?? 'Неуспешно не найдено';
+          parsedResponse.message = resMsg == Null ? resMsg : 'Неуспешно не найдено';
           parsedResponse.success = false;
         }
         break;

@@ -1,19 +1,28 @@
 import 'package:details_frontend/interfaces/filters_interface.dart';
+import 'package:details_frontend/services/base_api_service.dart';
+import 'package:details_frontend/services/car_brand_api_service.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:get/get.dart';
 
 class FiltersController extends GetxController {
+  final CarBrandApiService _CarBrandApi = new CarBrandApiService();
   final filters = Rx<MainFilter>(MainFilter());
-  final carBrand = Rx<SelectFilter>(SelectFilter());
+  final carBrand = Rx<SelectFilter>(SelectFilter(value: '23', options: []));
   final carModel = Rx<AsyncSelectFilter>(AsyncSelectFilter(searchUrl: '/'));
 
   @override
   void onInit() {
     super.onInit();
+    this.getCarBrandsList();
     printInfo(info: 'onInitFiltefs');
   }
   void setCarBrand(String val) {
     this.carBrand.value.value = val;
+  }
+
+  void getCarBrandsList() async {
+    var res = await this._CarBrandApi.getBrandsList();
+    this.carBrand.value = SelectFilter(value: '23', options: res.data);
   }
 
   void setCarModel(String val) {

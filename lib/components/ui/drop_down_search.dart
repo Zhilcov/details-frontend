@@ -1,4 +1,4 @@
-import 'package:details_frontend/interfaces/drop_down.dart';
+import 'package:details_frontend/models/api/drop_down.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 

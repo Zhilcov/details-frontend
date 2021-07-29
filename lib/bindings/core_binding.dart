@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 class CoreBindings extends Bindings {
   @override
   void dependencies() {
-    print('CoreBindings dependencies');
     Get.lazyPut<LoginFormController>(() => LoginFormController());
     Get.lazyPut<CoreController>(() => CoreController());
   }

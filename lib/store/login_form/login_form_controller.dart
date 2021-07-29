@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 
 
 class LoginFormController extends GetxController {
-  final AuthService _AuthService = AuthService(BaseApi.sandbox());
+  final AuthService _AuthService = AuthService();
   LoginFormErrorController loginFormError = Get.put<LoginFormErrorController>(LoginFormErrorController());
   CoreController coreController =  Get.find<CoreController>();
 

@@ -1,11 +1,20 @@
-import 'package:details_frontend/interfaces/drop_down.dart';
+import 'package:details_frontend/models/api/drop_down.dart';
 
 class BaseFilter {
    String? value;
+
+   BaseFilter({
+     this.value
+  });
 }
 
 class SelectFilter extends BaseFilter {
-  List<DropdownItem> options = [];
+  List<DropdownItem> options;
+
+  SelectFilter({
+    value,
+    required this.options,
+  }): super(value: value);
 }
 
 class AsyncSelectFilter extends SelectFilter {
@@ -13,7 +22,7 @@ class AsyncSelectFilter extends SelectFilter {
 
   AsyncSelectFilter({
     required this.searchUrl
-  });
+  }): super(value: '', options: []);
 }
 
 class MainFilter {

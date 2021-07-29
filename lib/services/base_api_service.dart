@@ -13,9 +13,10 @@ class BaseApi {
   static final String  host = 'localhost';
   static final int  port = 3000;
 
-  Uri getUrl(String path) => Uri(
+  Uri getUrl(String path, [Map<String, dynamic>? params]) => Uri(
     scheme: 'http',
     path: path,
+    queryParameters: params,
     host: host,
     port: port,
   );
@@ -36,11 +37,10 @@ class BaseApi {
     }
   }
 
-  Future<Response> get (String url, params) async {
+  Future<Response> get (String url, [Map<String, dynamic>? params]) async {
     try {
-      String queryString = Uri(queryParameters: params).query;
       return await http.get(
-        this.getUrl('$url?$queryString'),
+        this.getUrl(url, params),
       );
     }on Exception catch (_) {
       return http.Response(jsonEncode({}), 500);
